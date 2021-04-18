@@ -37,8 +37,8 @@ public class AccountController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Account> editAccount(@PathVariable Long id, @RequestBody Account account, Long balance) {
-        var result = accountService.editAccount(account, id, balance);
+    public ResponseEntity<Account> editAccount(@PathVariable Long id, @RequestParam Long balance) {
+        var result = accountService.editAccount(id, balance);
         return ResponseEntity.ok().body(result);
     }
 

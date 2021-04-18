@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AccountService {
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
     public Iterable<Account> accounts() {
         return accountRepository.findAll();
@@ -35,11 +35,11 @@ public class AccountService {
     }
 
     @Transactional
-    public Account editAccount(Account account, Long id, Long balance) {
+    public Account editAccount(Long id, Long balance) {
         var foundAccount = accountRepository.findById(id);
         if (foundAccount.isPresent()) {
-            account.setBalance(balance);
+            foundAccount.get().setBalance(balance);
         } else throw new RuntimeException("account not found");
-        return accountRepository.save(account);
+        return accountRepository.save(foundAccount.get());
     }
 }
