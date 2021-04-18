@@ -1,7 +1,9 @@
 package com.example.test_transaction.transaction.controller;
 
-import com.example.test_transaction.transaction.entity.Account;
-import com.example.test_transaction.transaction.service.AccountService;
+import com.example.test_transaction.transaction.dto.AccountRequest;
+import com.example.test_transaction.transaction.dto.PaymentAccountAcknowledgement;
+import com.example.test_transaction.transaction.entity.AccountInfo;
+import com.example.test_transaction.transaction.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
@@ -14,15 +16,15 @@ import java.net.URI;
 @RequestMapping("/account")
 @RequiredArgsConstructor
 public class AccountController {
-    private final AccountService accountService;
+    private final PaymentService accountService;
 
     @GetMapping("/all")
-    public Iterable<Account> getAllAccounts() {
+    public Iterable<AccountInfo> getAllAccounts() {
         return accountService.accounts();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Account> getAccount(@PathVariable Long id) {
+    public ResponseEntity<AccountInfo> getAccount(@PathVariable Long id) {
         var result = accountService.findAccountById(id);
         return result.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -30,20 +32,19 @@ public class AccountController {
 
     @SneakyThrows
     @PostMapping("/create")
-    public ResponseEntity<Account> createAccount(@RequestBody Account account) {
+    public ResponseEntity<AccountInfo> createAccount(@RequestBody AccountInfo account) {
         var result = accountService.createAccount(account);
         return ResponseEntity.created(new URI("/account/create" + result.getId()))
                 .body(result);
     }
 
-    @PutMapping("/edit/{id}")
-    public ResponseEntity<Account> editAccount(@PathVariable Long id, @RequestParam Long balance) {
-        var result = accountService.editAccount(id, balance);
-        return ResponseEntity.ok().body(result);
+    @PostMapping("/edit")
+    public PaymentAccountAcknowledgement action(@RequestBody AccountRequest request) {
+        return accountService.makeTransactionAction(request);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Account> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<AccountInfo> deleteProduct(@PathVariable Long id) {
         accountService.deleteAccount(id);
         return ResponseEntity.ok().build();
     }
