@@ -30,22 +30,8 @@ public class AccountController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @SneakyThrows
-    @PostMapping("/create")
-    public ResponseEntity<AccountInfo> createAccount(@RequestBody AccountInfo account) {
-        var result = accountService.createAccount(account);
-        return ResponseEntity.created(new URI("/account/create" + result.getId()))
-                .body(result);
-    }
-
-    @PostMapping("/edit")
-    public PaymentAccountAcknowledgement action(@RequestBody AccountRequest request) {
-        return accountService.makeTransactionAction(request);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<AccountInfo> deleteProduct(@PathVariable Long id) {
-        accountService.deleteAccount(id);
-        return ResponseEntity.ok().build();
+    @PutMapping("/edit")
+    public PaymentAccountAcknowledgement edit(@RequestBody AccountRequest request) {
+        return accountService.payment(request);
     }
 }

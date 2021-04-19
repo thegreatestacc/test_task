@@ -3,7 +3,6 @@ package com.example.test_transaction.transaction.service;
 import com.example.test_transaction.transaction.dto.AccountRequest;
 import com.example.test_transaction.transaction.dto.PaymentAccountAcknowledgement;
 import com.example.test_transaction.transaction.entity.AccountInfo;
-import com.example.test_transaction.transaction.entity.PaymentInfo;
 import com.example.test_transaction.transaction.repository.AccountInfoRepository;
 import com.example.test_transaction.transaction.repository.PaymentInfoRepository;
 import com.example.test_transaction.transaction.utils.PaymentUtils;
@@ -23,16 +22,6 @@ public class PaymentService {
         return accountRepository.findAll();
     }
 
-    public AccountInfo createAccount(AccountInfo account) {
-        return accountRepository.save(account);
-    }
-
-    public void deleteAccount(Long id) {
-        if (null != id) {
-            accountRepository.deleteById(id);
-        } else throw new RuntimeException("account not found");
-    }
-
     public Optional<AccountInfo> findAccountById(Long id) {
         var foundAccount = accountRepository.findById(id);
         if (foundAccount.isPresent()) {
@@ -41,16 +30,7 @@ public class PaymentService {
     }
 
     @Transactional
-    public AccountInfo editAccount(Long id, Long balance) {
-        var foundAccount = accountRepository.findById(id);
-        if (foundAccount.isPresent()) {
-            foundAccount.get().setBalance(balance);
-        } else throw new RuntimeException("account not found");
-        return accountRepository.save(foundAccount.get());
-    }
-
-    @Transactional
-    public PaymentAccountAcknowledgement makeTransactionAction(AccountRequest request) {
+    public PaymentAccountAcknowledgement payment(AccountRequest request) {
         var accountInfo = request.getAccountInfo();
 
         var account = accountRepository.findById(accountInfo.getId());
@@ -62,7 +42,6 @@ public class PaymentService {
         PaymentUtils.validateCreditLimit(account.get().getBalance(), paymentInfo.getAmount());
 
         long difference = account.get().getBalance() - paymentInfo.getAmount();
-
 
         paymentInfo.setAccountId(accountInfo.getId());
         paymentInfo.setAmount(difference);
