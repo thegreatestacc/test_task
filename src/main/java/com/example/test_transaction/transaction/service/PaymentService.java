@@ -5,7 +5,6 @@ import com.example.test_transaction.transaction.dto.PaymentAccountAcknowledgemen
 import com.example.test_transaction.transaction.entity.AccountInfo;
 import com.example.test_transaction.transaction.repository.AccountInfoRepository;
 import com.example.test_transaction.transaction.repository.PaymentInfoRepository;
-import com.example.test_transaction.transaction.utils.PaymentUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,8 +39,6 @@ public class PaymentService {
         if (account.isEmpty()) {
             throw new RuntimeException("account doesn't exist");
         }
-        PaymentUtils.validateCreditLimit(account.get().getBalance(), paymentInfo.getAmount());
-
         BigDecimal difference = account.get().getBalance().subtract(paymentInfo.getAmount());
 
         paymentInfo.setAccountId(accountInfo.getId());
