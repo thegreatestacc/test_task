@@ -5,12 +5,9 @@ import com.example.test_transaction.transaction.dto.PaymentAccountAcknowledgemen
 import com.example.test_transaction.transaction.entity.AccountInfo;
 import com.example.test_transaction.transaction.service.PaymentService;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
 
 @RestController
 @RequestMapping("/account")

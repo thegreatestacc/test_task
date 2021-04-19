@@ -1,10 +1,8 @@
 package com.example.test_transaction.transaction.utils;
 
 import com.example.test_transaction.transaction.exception.InsufficientAmountException;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
-@RequiredArgsConstructor
 public class PaymentUtils {
 
     @SneakyThrows
