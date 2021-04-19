@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -41,7 +42,7 @@ public class PaymentService {
         }
         PaymentUtils.validateCreditLimit(account.get().getBalance(), paymentInfo.getAmount());
 
-        long difference = account.get().getBalance() - paymentInfo.getAmount();
+        BigDecimal difference = account.get().getBalance().subtract(paymentInfo.getAmount());
 
         paymentInfo.setAccountId(accountInfo.getId());
         paymentInfo.setAmount(difference);

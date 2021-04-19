@@ -5,11 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentAccountAcknowledgement {
     private String status;
-    private Long balance;
+    private BigDecimal balance;
     private AccountInfo accountInfo;
 }

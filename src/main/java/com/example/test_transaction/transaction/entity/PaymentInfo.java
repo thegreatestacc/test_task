@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -23,5 +24,5 @@ public class PaymentInfo {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "paymentdate")
     private Date paymentDate;
-    private Long amount;
+    private BigDecimal amount;
 }
