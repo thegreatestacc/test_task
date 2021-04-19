@@ -25,7 +25,7 @@ class TransactionApplicationTests {
     @Test
     public void testListAllAccounts() {
         List<AccountInfo> accountInfoList = new ArrayList<>();
-        accountInfoList.add(new AccountInfo(1L, new BigDecimal(100L), Arrays.asList(new PaymentInfo(1L, 1L, new Date(), new BigDecimal(100L)))));
+        accountInfoList.add(new AccountInfo(1L, new BigDecimal(100), Arrays.asList(new PaymentInfo(1L, 1L, new Date(), new BigDecimal(100)))));
 
         Mockito.when(paymentService.accounts()).thenReturn(accountInfoList);
     }
@@ -33,7 +33,7 @@ class TransactionApplicationTests {
     @Test
     public void testEditAccount() {
         AccountRequest accountRequest = new AccountRequest(
-                new AccountInfo(1L, new BigDecimal(100L), Arrays.asList(new PaymentInfo(1L, 1L, new Date(),  new BigDecimal(100L)))),
+                new AccountInfo(1L, new BigDecimal(100), Arrays.asList(new PaymentInfo(1L, 1L, new Date(),  new BigDecimal(100)))),
                 new PaymentInfo(1L, 1L, new Date(), new BigDecimal(50))
         );
         PaymentAccountAcknowledgement paymentAccountAcknowledgement = new PaymentAccountAcknowledgement(
