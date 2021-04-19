@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -24,7 +25,7 @@ class TransactionApplicationTests {
     @Test
     public void testListAllAccounts() {
         List<AccountInfo> accountInfoList = new ArrayList<>();
-        accountInfoList.add(new AccountInfo(1L, 100L, Arrays.asList(new PaymentInfo(1L, 1L, new Date(), 100L))));
+        accountInfoList.add(new AccountInfo(1L, new BigDecimal(100L), Arrays.asList(new PaymentInfo(1L, 1L, new Date(), new BigDecimal(100L)))));
 
         Mockito.when(paymentService.accounts()).thenReturn(accountInfoList);
     }
@@ -32,14 +33,14 @@ class TransactionApplicationTests {
     @Test
     public void testEditAccount() {
         AccountRequest accountRequest = new AccountRequest(
-                new AccountInfo(1L, 100L, Arrays.asList(new PaymentInfo(1L, 1L, new Date(), 100L))),
-                new PaymentInfo(1L, 1L, new Date(), 50L)
+                new AccountInfo(1L, new BigDecimal(100L), Arrays.asList(new PaymentInfo(1L, 1L, new Date(),  new BigDecimal(100L)))),
+                new PaymentInfo(1L, 1L, new Date(), new BigDecimal(50))
         );
         PaymentAccountAcknowledgement paymentAccountAcknowledgement = new PaymentAccountAcknowledgement(
                 "success",
-                accountRequest.getAccountInfo().getBalance() - accountRequest.getPaymentInfo().getAmount(),
+                accountRequest.getAccountInfo().getBalance().subtract(accountRequest.getPaymentInfo().getAmount()),
                 new AccountInfo(
-                        1L, accountRequest.getAccountInfo().getBalance() - accountRequest.getPaymentInfo().getAmount(),
+                        1L, accountRequest.getAccountInfo().getBalance().subtract(accountRequest.getPaymentInfo().getAmount()),
                         Arrays.asList(accountRequest.getPaymentInfo())
                 )
         );
